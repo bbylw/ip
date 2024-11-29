@@ -238,17 +238,6 @@ async function handleRequest(request) {
             transform: translateY(0);
           }
 
-          .loading-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: #f90;
-            animation: loading 2s ease-in-out infinite;
-            z-index: 1000;
-            width: 100%;
-          }
-
           .copy-notification {
             position: fixed;
             bottom: 20px;
@@ -285,28 +274,95 @@ async function handleRequest(request) {
             background: #ff8500;
           }
 
+          /* 修改移动端适配样式 */
           @media (max-width: 768px) {
             .ph-container {
-              margin: 20px;
-              padding: 20px;
+              margin: 10px;
+              padding: 15px;
+              width: 100%;
+              box-sizing: border-box;
             }
             
             .ph-logo {
-              font-size: 24px;
+              font-size: 20px;
+            }
+            
+            .ph-logo span {
+              padding: 2px 8px;
             }
             
             .ph-title {
-              font-size: 24px;
+              font-size: 20px;
+              margin-bottom: 20px;
+              padding-bottom: 10px;
             }
             
             .ph-content {
-              padding: 20px;
+              padding: 15px;
               font-size: 14px;
+              overflow-x: auto; /* 添加横向滚动 */
+            }
+            
+            /* 优化表格在移动端的显示 */
+            .ph-content table {
+              display: block;
+              overflow-x: auto;
+              white-space: nowrap;
+              -webkit-overflow-scrolling: touch;
             }
             
             .ph-content th,
             .ph-content td {
-              padding: 12px;
+              padding: 8px 12px;
+              min-width: 100px; /* 设置最小宽度 */
+            }
+
+            /* 优化按钮在移动端的显示 */
+            .ph-button {
+              padding: 8px 16px;
+              font-size: 14px;
+              width: 100%;
+              justify-content: center;
+            }
+
+            /* 优化复制成功提示在移动端的显示 */
+            .copy-notification {
+              left: 50%;
+              right: auto;
+              transform: translateX(-50%) translateY(100px);
+              width: 90%;
+              max-width: 300px;
+              text-align: center;
+            }
+
+            .copy-notification.show {
+              transform: translateX(-50%) translateY(0);
+            }
+          }
+
+          /* 添加横屏模式的优化 */
+          @media (max-height: 500px) and (orientation: landscape) {
+            .ph-container {
+              margin: 10px;
+            }
+            
+            .ph-header {
+              padding: 10px;
+            }
+            
+            .ph-title {
+              margin-bottom: 15px;
+            }
+          }
+
+          /* 添加深色模式支持 */
+          @media (prefers-color-scheme: dark) {
+            .ph-content {
+              background: #1a1a1a;
+            }
+            
+            .ph-container {
+              background: #242424;
             }
           }
         </style>
@@ -336,7 +392,6 @@ async function handleRequest(request) {
             document.body.appendChild(notification);
             
             body.innerHTML = \`
-              <div class="loading-bar"></div>
               <header class="ph-header">
                 <nav class="ph-nav">
                   <div class="ph-logo">IP<span>CHECKER</span></div>
